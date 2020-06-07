@@ -1,16 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Main from "./Pages/main"
+import SpeechRecognition from "react-speech-recognition";
+import PropTypes from "prop-types"
 
-function App() {
+const propTypes = {
+  // Props injected by SpeechRecognition
+  transcript: PropTypes.string,
+  browserSupportsSpeechRecognition: PropTypes.bool
+};
+
+function App(transcript, browserSupportsSpeechRecognition) {
+
   return (
     <div className="App">
       <header className="App-header">
-       <Main></Main>
+       <Main transcript={transcript} browserSupportsSpeechRecognition={browserSupportsSpeechRecognition}></Main>
       </header>
     </div>
   );
 }
 
-export default App;
+App.propTypes = propTypes;
+
+export default SpeechRecognition(App);
