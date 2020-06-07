@@ -7,17 +7,27 @@ import recipe from "../../Data/test_recipe.json"
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: recipe }
+        this.state = {
+            data: recipe,
+            finalTranscript: ""
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.transcript.finalTranscript) {
+            this.setState({
+                finalTranscript: this.props.transcript.finalTranscript
+            })
+            this.props.transcript.resetTranscript();
+        }
     }
 
     render() {
-        console.log(this.props)
         return (
-        <div>
-            <Ingredients recipe={this.state.data}></Ingredients>
-            <Steps recipe={this.state.data}></Steps>
-            <p>{this.props.transcript.finalTranscript}</p>
-        </div>
+            <div>
+                <Ingredients recipe={this.state.data}></Ingredients>
+                <Steps recipe={this.state.data}></Steps>
+            </div>
         )
     }
 }

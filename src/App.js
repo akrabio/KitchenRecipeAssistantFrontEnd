@@ -6,16 +6,15 @@ import PropTypes from "prop-types"
 
 const propTypes = {
   // Props injected by SpeechRecognition
-  transcript: PropTypes.string,
-  browserSupportsSpeechRecognition: PropTypes.bool
+  transcript: PropTypes.string
 };
 
-function App(transcript, browserSupportsSpeechRecognition) {
+function App(transcript) {
 
   return (
     <div className="App">
       <header className="App-header">
-       <Main transcript={transcript} browserSupportsSpeechRecognition={browserSupportsSpeechRecognition}></Main>
+       <Main transcript={transcript}></Main>
       </header>
     </div>
   );
