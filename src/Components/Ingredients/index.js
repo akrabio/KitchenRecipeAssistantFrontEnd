@@ -9,7 +9,7 @@ export default function Ingredients(props) {
 
     let items = [];
     for(let i=0; i < ingredients.length; ++i) {
-        items.push(<ListGroup.Item>{ingredients[i]}</ListGroup.Item>)
+        items.push(<ListGroup.Item style={{'text-align': 'right', 'direction': 'rtl'}}>{ingredients[i]}</ListGroup.Item>)
     }
 
 

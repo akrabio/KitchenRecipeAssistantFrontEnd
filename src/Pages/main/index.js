@@ -9,24 +9,47 @@ export default class Main extends React.Component {
         super(props);
         this.state = {
             data: recipe,
-            finalTranscript: ""
+            finalTranscript: "",
+            showStep: "All",
+            showIngredients: true
+    
         }
     }
 
     componentDidUpdate() {
-        if (this.props.transcript.finalTranscript) {
+        let finalTranscript = this.props.transcript.finalTranscript;
+        if (finalTranscript) {
+            let showStep = this.state.showStep;
+            let showIngredients = this.state.showIngredients;
+            if(finalTranscript.includes("step")) {
+                showStep = "All";
+                showIngredients = false;
+            } else if(finalTranscript.includes("ingredients")) {
+                showStep = "None";
+                showIngredients = true
+            }
+
             this.setState({
-                finalTranscript: this.props.transcript.finalTranscript
+                finalTranscript: finalTranscript,
+                showIngredients: showIngredients,
+                showStep: showStep
             })
             this.props.transcript.resetTranscript();
         }
     }
 
     render() {
+        let step = "";
+        let ingredients = ""
+        if(this.state.showStep === "All") {
+            step = <Steps recipe={this.state.data}></Steps>;
+        } else if(this.state.showIngredients) {
+            ingredients = <Ingredients recipe={this.state.data}></Ingredients>;
+        }
         return (
             <div>
-                <Ingredients recipe={this.state.data}></Ingredients>
-                <Steps recipe={this.state.data}></Steps>
+                {ingredients}
+                {step}
             </div>
         )
     }

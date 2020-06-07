@@ -10,9 +10,9 @@ export default function Ingredients(props) {
     let items = [];
     for(let index in steps) {
         items.push(
-        <tr>
-            <td>{index}</td>
+        <tr style={{'direction': 'rtl', 'text-align': 'right'}}>
             <td>{steps[index]}</td>
+            <td>{index}</td>
         </tr>
             )
     }
