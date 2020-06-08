@@ -1,5 +1,5 @@
-import React from "react"
-import { Table } from "react-bootstrap"
+import React from "react";
+import { Table } from "react-bootstrap";
 
 export default function Ingredients(props) {
 
@@ -20,7 +20,7 @@ export default function Ingredients(props) {
             items.push(
             <tr style={{'direction': 'rtl', 'text-align': 'right'}}>
                 <td>{steps[index]}</td>
-                <td>.{index}</td>
+                <td>{index}.</td>
             </tr>
                 )
         }
