@@ -41,8 +41,8 @@ export default class Main extends React.Component {
     render() {
         let step = "";
         let ingredients = ""
-        if(this.state.showStep === "All") {
-            step = <Steps recipe={this.state.data}></Steps>;
+        if(this.state.showStep !== "None") {
+            step = <Steps recipe={this.state.data} showStep={this.state.showStep}></Steps>;
         } else if(this.state.showIngredients) {
             ingredients = <Ingredients recipe={this.state.data}></Ingredients>;
         }
