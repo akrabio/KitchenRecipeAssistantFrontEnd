@@ -2,7 +2,7 @@ import React from "react";
 import { Form, Button } from "react-bootstrap";
 import Ingredients from "../../Components/Ingredients/index";
 import Steps from "../../Components/Steps/index";
-import MakoScraper from "../../RecipeScrapers/makoScraper";
+import RecipeScraper from "../../RecipeScrapers/BaseRecipeScraper";
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -10,7 +10,7 @@ export default class Main extends React.Component {
         this.state = {
             data: undefined,
             finalTranscript: "",
-            showStep: "All",
+            showStep: "None",
             showIngredients: true,
             url: ''
     
@@ -42,7 +42,7 @@ export default class Main extends React.Component {
     async onUrlClick(event) {
         event.preventDefault();
         const url = "https://cors-anywhere.herokuapp.com/" + this.state.url;
-        let recipe = await MakoScraper(url)
+        let recipe = await RecipeScraper(url)
         console.log(recipe)
         this.setState({
             data: recipe
@@ -53,7 +53,9 @@ export default class Main extends React.Component {
         let step = "";;
         let ingredients = "";
         let input = ""
+        let name = ""
         if(this.state.data) {
+            name = <h2>{this.state.data.name}</h2>
             if(this.state.showStep !== "None") {
                 step = <Steps recipe={this.state.data} showStep={this.state.showStep}></Steps>;
             } else if(this.state.showIngredients) {
@@ -69,14 +71,14 @@ export default class Main extends React.Component {
                     Get Recipe
                 </Button>
             </Form>
-            // button = <Button onClick={this.onUrlClick.bind(this)}>Get Recipe</Button>;
         }
         return (
             <div>
+                {name}
                 {ingredients}
                 {step}
                 {input}
-                
+                <Button onClick={()=> this.setState({data: undefined})}>Reset</Button>
             </div>
         )
     }

@@ -10,7 +10,12 @@ export default async function ScrapeMako(url) {
     const html = response.data;
     const $ = cheerio.load(html);
     const name = $('.articleHeader > h1').text();
-    const ingredients = $('.recipeIngredients > li').text();
+    const ingredientsTable = $('.recipeIngredients > li > span');
+    let ingredients = []
+    ingredientsTable.each(index => {
+        ingredients.push(ingredientsTable[index].children[0].data)
+    })
+    console.log(ingredients)
     const stepsTable = $('.recipeInstructions')[0].children;
     let steps = {};
     stepsTable.forEach( element => {
