@@ -41,9 +41,8 @@ export default class Main extends React.Component {
 
     async onUrlClick(event) {
         event.preventDefault();
-        const url = "https://cors-anywhere.herokuapp.com/" + this.state.url;
+        const url = this.state.url;
         let recipe = await RecipeScraper(url)
-        console.log(recipe)
         this.setState({
             data: recipe
         })

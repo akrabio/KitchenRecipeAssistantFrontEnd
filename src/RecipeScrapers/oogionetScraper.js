@@ -1,14 +1,17 @@
 import axios from "axios";
 import cheerio from "cheerio";
-
 import Recipe from "../Model/Recipe";
+import dotenv from "dotenv"
 
+dotenv.config()
 
 export default async function ScrapeOogionet(url) {
-    
-    const response = await axios(url)
-    const html = response.data;
+    const response = await axios.get(url);
+    const html = decodeURIComponent(response.data);
     const $ = cheerio.load(html);
+    if(!$('strong') || !$('strong')[0]) {
+        return new Recipe("Error getting recipe", [], {});
+    }
     const name = $('strong')[0].children[0].data;
     const perliminaryTable = $('p');
     let ingredientsTable = [];
