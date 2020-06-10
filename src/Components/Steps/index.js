@@ -10,15 +10,15 @@ export default function Ingredients(props) {
     let items = [];
     if(showStep && showStep !== "All" && showStep !== "None") {
         items.push(
-            <tr style={{'direction': 'rtl', 'text-align': 'right'}}>
-            <td>{steps[parseInt(showStep)]}</td>
+            <tr key="0" style={{'direction': 'rtl', 'textAlign': 'right'}}>
+            <td>{steps[showStep]}</td>
             <td>{showStep}</td>
         </tr>
         )
     } else {
         for(let index in steps) {
             items.push(
-            <tr style={{'direction': 'rtl', 'text-align': 'right'}}>
+            <tr key={index} style={{'direction': 'rtl', 'textAlign': 'right'}}>
                 <td>{steps[index]}</td>
                 <td>{index}.</td>
             </tr>

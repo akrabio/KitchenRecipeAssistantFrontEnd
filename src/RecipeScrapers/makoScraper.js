@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function ScrapeMako(url) {
-    const response = await axios.get(url);
+    const response = await axios.get(url, {headers: {apikey: process.env.REACT_APP_APIKEY}});
     const html = decodeURIComponent(response.data);
     const $ = cheerio.load(html);
     const name = $('.articleHeader > h1').text();
