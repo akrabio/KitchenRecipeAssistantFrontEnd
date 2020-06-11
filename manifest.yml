@@ -1,0 +1,6 @@
+path: build/
+memory: 128M
+name:    KitchenAssistant
+instances: 1
+disk_quota: 256M
+buildpack: https://github.com/cloudfoundry/staticfile-buildpack.git
