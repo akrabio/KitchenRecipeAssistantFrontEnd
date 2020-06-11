@@ -10,7 +10,7 @@ export default function Ingredients(props) {
     let items = [];
     if(showStep && showStep !== "All" && showStep !== "None") {
         items.push(
-            <tr key="0" style={{'direction': 'rtl', 'textAlign': 'right'}}>
+            <tr key={0} style={{'direction': 'rtl', 'textAlign': 'right'}}>
             <td>{steps[showStep]}</td>
             <td>{showStep}</td>
         </tr>

@@ -9,18 +9,20 @@ export default class Main extends React.Component {
         this.state = {
             data: undefined,
             recipe: "",
-            url: ''
+            url: '',
+            currentStep: "None"
     
         }
     }
 
     async componentDidUpdate() {
         let finalTranscript = this.props.transcript.finalTranscript;
-        let recipe = "";
+        let res = ["", this.state.currentStep];
         if(this.state.data && finalTranscript) {
-            recipe = await Recipe(this.state.data, finalTranscript)// <Recipe recipe={this.state.data} transcript={finalTranscript}/>
+             res = await Recipe(this.state.data, finalTranscript, this.state.currentStep)// <Recipe recipe={this.state.data} transcript={finalTranscript}/>
             this.setState({
-                recipe: recipe,
+                recipe: res[0],
+                currentStep: res[1]
             })
             this.props.transcript.resetTranscript(); 
         }          
@@ -30,10 +32,11 @@ export default class Main extends React.Component {
         event.preventDefault();
         const url = this.state.url;
         let data = await RecipeScraper(url);
-        let recipe = await Recipe(data, "")//<Recipe recipe={data} transcript=""/>;
+        let res = await Recipe(data, "", this.state.currentStep)//<Recipe recipe={data} transcript=""/>;
         this.setState({
             data: data,
-            recipe: recipe
+            recipe: res[0],
+            currentStep: res[1]
         })
     }
 

@@ -9,12 +9,11 @@ const NEXT_STEP = "next_step";
 const PREVIOUS_STEP = "previous_step";
 const STEPS = "steps";
 
-export default async function Recipe(recipe, transcript) {
-
-    // const { transcript, recipe } = props;
-
+export default async function Recipe(recipe, transcript, currentStep) {
+    const upperLimit = Object.keys(recipe.steps).length + 1;
+    const lowerLimit = 1;
     let showIngredients = true;
-    let showStep = "None";
+    let showStep = currentStep;
     if(transcript) {
         const response = await axios(process.env.REACT_APP_API_BASE_URL + process.env.REACT_APP_API_SEND_TO_WA + transcript , {headers: {apikey: process.env.REACT_APP_APIKEY}});
 
@@ -31,18 +30,21 @@ export default async function Recipe(recipe, transcript) {
             }
             case(NEXT_STEP): {
                 if(typeof(showStep) == 'number') {
-                    showStep++;
+                    showStep = (showStep + 1) % upperLimit;
+                    showIngredients = false;
                 }
                 break;
             } 
             case(PREVIOUS_STEP): {
                 if(typeof(showStep) == 'number') {
                     showStep--;
+                    showStep = showStep < lowerLimit ? lowerLimit : showStep;
+                    showIngredients = false;
                 }
                 break;
             }
             case(STEPS): {
-                if(entity !== undefined) {
+                if(entity !== undefined && lowerLimit <= parseInt(entity.value) && parseInt(entity.value) <= upperLimit) {
                     showStep = parseInt(entity.value);
                 } else {
                     showStep = "All";
@@ -68,10 +70,11 @@ export default async function Recipe(recipe, transcript) {
     if(showIngredients) {
         ingredients = <Ingredients recipe={recipe}/>
     }
-    return (
+    return ([
         <div>
             {steps}
             {ingredients}
         </div>
+        ,showStep]
     );
 }
