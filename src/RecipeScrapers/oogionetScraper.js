@@ -7,7 +7,7 @@ dotenv.config()
 
 export default async function ScrapeOogionet(url) {
     const response = await axios.get(url, {headers: {apikey: process.env.REACT_APP_APIKEY}});
-    const html = decodeURIComponent(response.data);
+    const html = response.data;
     const $ = cheerio.load(html);
     if(!$('strong') || !$('strong')[0]) {
         return new Recipe("Error getting recipe", [], {});
@@ -36,7 +36,7 @@ export default async function ScrapeOogionet(url) {
     const stepsTable = $('ol')[0].children;
     stepsTable.forEach(element => {
         if(element.name === "li") {
-            steps[i++] = element.children[0].data;
+            steps[++i] = element.children[0].data;
         }
     })
 

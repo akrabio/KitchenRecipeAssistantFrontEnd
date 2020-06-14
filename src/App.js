@@ -9,6 +9,11 @@ const propTypes = {
   transcript: PropTypes.string
 };
 
+const options = {
+  autoStart: false,
+  continuous: false
+}
+
 function App(transcript) {
 
   return (
@@ -22,4 +27,4 @@ function App(transcript) {
 
 App.propTypes = propTypes;
 
-export default SpeechRecognition(App);
+export default SpeechRecognition(options)(App);
