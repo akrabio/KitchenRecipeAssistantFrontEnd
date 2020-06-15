@@ -3,6 +3,8 @@ import './App.css';
 import Main from "./Pages/main"
 import SpeechRecognition from "react-speech-recognition";
 import PropTypes from "prop-types"
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const propTypes = {
   // Props injected by SpeechRecognition

@@ -10,7 +10,7 @@ export default function Ingredients(props) {
     let items = [];
     if(showStep && showStep !== "All" && showStep !== "None") {
         items.push(
-            <tr key={0} style={{'direction': 'rtl', 'textAlign': 'right'}}>
+            <tr key={0} style={{'direction': 'rtl', 'textAlign': 'right', 'color': 'white'}}>
             <td>{steps[showStep]}</td>
             <td>{showStep}</td>
         </tr>
@@ -18,7 +18,7 @@ export default function Ingredients(props) {
     } else {
         for(let index in steps) {
             items.push(
-            <tr key={index} style={{'direction': 'rtl', 'textAlign': 'right'}}>
+            <tr key={index} style={{'direction': 'rtl', 'textAlign': 'right', 'color': 'white'}}>
                 <td>{steps[index]}</td>
                 <td>{index}.</td>
             </tr>
@@ -28,7 +28,7 @@ export default function Ingredients(props) {
 
     return (
     <div>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
             <tbody>
                 {items}
             </tbody>

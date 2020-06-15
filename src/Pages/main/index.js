@@ -58,7 +58,7 @@ export default class Main extends React.Component {
         let startMicrophone = '';
         let loading = '';
         if(this.state.loading) {
-            loading = <Spinner animation="border" role="status"><span class="sr-only">Loading...</span></Spinner>
+            loading = <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>
         } else {
             if(!this.props.transcript.listening) {
                 startMicrophone = <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button>
