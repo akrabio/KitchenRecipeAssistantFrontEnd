@@ -1,7 +1,8 @@
 import React from "react";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Spinner } from "react-bootstrap";
 import RecipeScraper from "../../RecipeScrapers/BaseRecipeScraper";
 import Recipe from "../../Components/Recipe";
+import NoSleep from 'nosleep.js'
 
 export default class Main extends React.Component {
     constructor(props) {
@@ -10,7 +11,9 @@ export default class Main extends React.Component {
             data: undefined,
             recipe: "",
             url: '',
-            currentStep: "None"
+            currentStep: "None",
+            loading: false,
+            noSleep: new NoSleep()
         }
     }
 
@@ -31,15 +34,20 @@ export default class Main extends React.Component {
     }
 
     async onUrlClick(event) {
+        this.setState({
+            loading: true
+        });
         event.preventDefault();
         const url = this.state.url;
         let data = await RecipeScraper(url);
         let res = await Recipe(data, "", this.state.currentStep)
         this.props.transcript.startListening();
+        this.state.noSleep.enable();
         this.setState({
             data: data,
             recipe: res[0],
-            currentStep: res[1]
+            currentStep: res[1],
+            loading: false
         })
     }
 
@@ -47,31 +55,41 @@ export default class Main extends React.Component {
         let input = "";
         let name = "";
         let recipe = "";
-        if (this.state.data) {
-            recipe = this.state.recipe;
-            name = <h2>{this.state.data.name}</h2>
-            // if(this.state.showStep !== "None") {
-            //     step = <Steps recipe={this.state.data} showStep={this.state.showStep}></Steps>;
-            // } else if(this.state.showIngredients) {
-            //     ingredients = <Ingredients recipe={this.state.data}></Ingredients>;
-            // }
+        let startMicrophone = '';
+        let loading = '';
+        if(this.state.loading) {
+            loading = <Spinner animation="border" role="status"><span class="sr-only">Loading...</span></Spinner>
         } else {
-            input =
-                <Form onSubmit={this.onUrlClick.bind(this)}>
-                    <Form.Group controlId="Recipe URL">
-                        <Form.Control type="text" placeholder="Enter url" onChange={(e) => this.setState({ url: e.target.value })} />
-                    </Form.Group>
-                    <Button variant="primary" type="submit">
-                        Get Recipe
-                </Button>
-                </Form>
+            if(!this.props.transcript.listening) {
+                startMicrophone = <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button>
+            }
+            if (this.state.data) {
+                recipe = this.state.recipe;
+                name = <h2>{this.state.data.name}</h2>
+            } else {
+                input =
+                    <Form onSubmit={this.onUrlClick.bind(this)}>
+                        <Form.Group controlId="Recipe URL">
+                            <Form.Control type="text" placeholder="Enter url" onChange={(e) => this.setState({ url: e.target.value })} />
+                        </Form.Group>
+                        <Button variant="primary" type="submit">
+                            Get Recipe
+                    </Button>
+                    </Form>
+            }
         }
         return (
             <div>
                 {name}
                 {recipe}
                 {input}
-                <Button onClick={() => this.setState({ data: undefined, url: '', recipe: '', currentStep: "None" })}>Reset</Button>
+                {loading}
+                <Button onClick={() => {
+                    this.state.noSleep.disable();
+                    this.setState({ data: undefined, url: '', recipe: '', currentStep: "None" })
+                }
+                }>Reset</Button>
+                {startMicrophone}
             </div>
         )
     }
