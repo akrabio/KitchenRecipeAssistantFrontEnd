@@ -17,18 +17,22 @@ export default class Main extends React.Component {
         }
     }
 
-    async componentDidUpdate() {
-        let finalTranscript = this.props.transcript.finalTranscript;
-        let res = ["", this.state.currentStep];
-        console.log(finalTranscript)
-        if (this.state.data && finalTranscript !== '') {
-            this.props.transcript.stopListening();
-            this.props.transcript.resetTranscript();
-            res = await Recipe(this.state.data, finalTranscript, this.state.currentStep)
+    async setRecipe(transcript) {
+        let res = ["", this.state.currentStep]
+        res = await Recipe(this.state.data, transcript, this.state.currentStep)
             this.setState({
                 recipe: res[0],
                 currentStep: res[1]
             })
+    }
+
+    async componentDidUpdate() {
+        let finalTranscript = this.props.transcript.finalTranscript;
+        console.log(finalTranscript)
+        if (this.state.data && finalTranscript !== '') {
+            this.props.transcript.stopListening();
+            this.props.transcript.resetTranscript();
+            await this.setRecipe(finalTranscript);
             this.props.transcript.startListening();
         }
     }
@@ -57,15 +61,22 @@ export default class Main extends React.Component {
         let recipe = "";
         let startMicrophone = '';
         let loading = '';
+        let showIngredients = '';
+        let showSteps = '';
         if(this.state.loading) {
             loading = <Spinner animation="border" role="status"><span className="sr-only">Loading...</span></Spinner>
         } else {
-            if(!this.props.transcript.listening) {
-                startMicrophone = <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button>
+            if(!this.props.transcript.listening && this.state) {
             }
             if (this.state.data) {
                 recipe = this.state.recipe;
                 name = <h2>{this.state.data.name}</h2>
+                if(this.props.transcript.browserSupportsSpeechRecognition){
+                    startMicrophone = !this.props.transcript.listening ? <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button> : <Button onClick={() => {this.props.transcript.stopListening();}}>Stop Mic</Button>
+                } else {
+                    showIngredients = <Button onClick={() => this.setRecipe("show ingredients")}>Ingredients</Button>;
+                    showSteps = <Button onClick={() => this.setRecipe("show steps")}>Steps</Button>
+                }
             } else {
                 input =
                     <Form onSubmit={this.onUrlClick.bind(this)}>
@@ -90,6 +101,8 @@ export default class Main extends React.Component {
                 }
                 }>Reset</Button>
                 {startMicrophone}
+                {showIngredients}
+                {showSteps}
             </div>
         )
     }

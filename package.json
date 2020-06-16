@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "local": "set REACT_APP_LOCAL_API=http://localhost:3001&& react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
