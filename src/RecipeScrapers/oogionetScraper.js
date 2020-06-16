@@ -2,7 +2,6 @@ import axios from "axios";
 import cheerio from "cheerio";
 import Recipe from "../Model/Recipe";
 import dotenv from "dotenv"
-import { NavItem } from "react-bootstrap";
 
 dotenv.config()
 

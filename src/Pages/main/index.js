@@ -28,7 +28,6 @@ export default class Main extends React.Component {
 
     async componentDidUpdate() {
         let finalTranscript = this.props.transcript.finalTranscript;
-        console.log(finalTranscript)
         if (this.state.data && finalTranscript !== '') {
             this.props.transcript.stopListening();
             this.props.transcript.resetTranscript();
