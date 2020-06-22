@@ -70,11 +70,10 @@ export default class Main extends React.Component {
             if (this.state.data) {
                 recipe = this.state.recipe;
                 name = <h2>{this.state.data.name}</h2>
+                showIngredients = <Button onClick={() => this.setRecipe("show ingredients")}>Ingredients</Button>;
+                showSteps = <Button onClick={() => this.setRecipe("show steps")}>Steps</Button>
                 if(this.props.transcript.browserSupportsSpeechRecognition){
                     startMicrophone = !this.props.transcript.listening ? <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button> : <Button onClick={() => {this.props.transcript.stopListening();}}>Stop Mic</Button>
-                } else {
-                    showIngredients = <Button onClick={() => this.setRecipe("show ingredients")}>Ingredients</Button>;
-                    showSteps = <Button onClick={() => this.setRecipe("show steps")}>Steps</Button>
                 }
             } else {
                 input =
@@ -82,26 +81,28 @@ export default class Main extends React.Component {
                         <Form.Group controlId="Recipe URL">
                             <Form.Control type="text" placeholder="Enter url" onChange={(e) => this.setState({ url: e.target.value })} />
                         </Form.Group>
-                        <Button variant="primary" type="submit">
-                            Get Recipe
-                    </Button>
+                        <Button variant="primary" type="submit">Get Recipe</Button>
                     </Form>
             }
         }
         return (
             <div>
-                {name}
-                {recipe}
-                {input}
-                {loading}
-                <Button onClick={() => {
-                    this.state.noSleep.disable();
-                    this.setState({ data: undefined, url: '', recipe: '', currentStep: "None" })
-                }
-                }>Reset</Button>
-                {startMicrophone}
-                {showIngredients}
-                {showSteps}
+                <div>
+                    {name}
+                    {recipe}
+                    {input}
+                    {loading}
+                    {showIngredients}
+                    {showSteps}
+                </div>
+                <div>
+                    <Button onClick={() => {
+                        this.state.noSleep.disable();
+                        this.setState({ data: undefined, url: '', recipe: '', currentStep: "None" })
+                    }
+                    }>Reset</Button>
+                    {startMicrophone}
+                </div>
             </div>
         )
     }

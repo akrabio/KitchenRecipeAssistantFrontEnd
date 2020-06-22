@@ -16,7 +16,7 @@ export default async function ScrapeOogionet(url) {
     const perliminaryTable = $('p');
     let ingredientsTable = [];
     perliminaryTable.each(index => {
-        if(perliminaryTable[index].children[0].name === "u"){
+        if(perliminaryTable[index].children[0].name === "u" || perliminaryTable[index].children[0].name === "span"){
             ingredientsTable.push(perliminaryTable[index].children);
         }
     })
@@ -32,13 +32,19 @@ export default async function ScrapeOogionet(url) {
         
     })
     let steps = {};
-    let i = 0;
-    const stepsTable = $('ol')[0].children;
-    stepsTable.forEach(element => {
-        if(element.name === "li") {
-            steps[++i] = element.children[0].data;
+    const stepsHeaders = $('h5');
+    const stepsTable = $('ol');
+    let stepIndex = 0;
+    for(let i=0; i < stepsTable.length - 1; ++i){
+        if(stepsHeaders[i]) {
+            steps[++stepIndex] = stepsHeaders[i].children[0].data;
         }
-    })
+        stepsTable[i].children.forEach(element => {
+            if(element.name === "li") {
+                steps[++stepIndex] = element.children[0].data;
+            }
+        });
+    }
 
     return new Recipe(name, ingredients, steps);
 }
