@@ -6,7 +6,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export default async function ScrapeMako(url) {
-    url = 'https://cors-anywhere.herokuapp.com/' + url;
     const response = await axios.get(url, { headers: { apikey: process.env.REACT_APP_APIKEY } });
     const html = response.data;
     const $ = cheerio.load(html);
