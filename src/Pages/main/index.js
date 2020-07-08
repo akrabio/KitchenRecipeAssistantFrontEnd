@@ -4,6 +4,8 @@ import RecipeScraper from "../../RecipeScrapers/BaseRecipeScraper";
 import Recipe from "../../Components/Recipe";
 import NoSleep from 'nosleep.js'
 
+
+
 export default class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -25,6 +27,7 @@ export default class Main extends React.Component {
                 currentStep: res[1]
             })
     }
+
 
     async componentDidUpdate() {
         let finalTranscript = this.props.transcript.finalTranscript;
