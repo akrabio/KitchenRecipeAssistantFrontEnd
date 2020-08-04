@@ -3,7 +3,7 @@ import { Table, ListGroup } from "react-bootstrap";
 
 export default function Steps(props) {
 
-    const { recipe, showStep, setStep } = props;
+    const { recipe, showStep } = props;
 
     const steps = recipe.steps;
     const ingredients = recipe.ingredients;
@@ -33,7 +33,7 @@ export default function Steps(props) {
             items.push(
             <tr key={index} style={{'direction': 'rtl', 'textAlign': 'right', 'color': 'white'}}>
                 <td>{steps[index]}</td>
-                <td><button onClick={setStep(index)}>{index}.</button></td>
+                <td>{index}.</td>
             </tr>
                 )
         }
