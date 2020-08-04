@@ -24,8 +24,7 @@ const options = {
 function App(transcript) {
   if(!loggedIn) {
     let username = prompt('Username:', '');
-    let password = prompt('Password:', '');
-    if(!process.env.REACT_APP_CREDS.split(",").includes(username+password)) {
+    if(!process.env.REACT_APP_CREDS.split(",").includes(username)) {
         window.alert('Login failed!');
         return (<div>Login Failed</div>)
     } else {

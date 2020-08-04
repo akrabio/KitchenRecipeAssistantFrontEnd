@@ -21,13 +21,12 @@ export default class Main extends React.Component {
 
     async setRecipe(transcript) {
         let res = ["", this.state.currentStep]
-        res = await Recipe(this.state.data, transcript, this.state.currentStep)
-            this.setState({
-                recipe: res[0],
-                currentStep: res[1]
-            })
+        res = await Recipe(this.state.data, transcript, this.state.currentStep, this.setCurrentStep.bind(this));
+        this.setState({
+            recipe: res[0],
+            currentStep: res[1]
+        });
     }
-
 
     async componentDidUpdate() {
         let finalTranscript = this.props.transcript.finalTranscript;
