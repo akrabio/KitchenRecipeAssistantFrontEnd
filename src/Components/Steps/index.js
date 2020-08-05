@@ -17,20 +17,21 @@ export default function Steps(props) {
             <td>{showStep}</td>
         </tr>
         )
+        let ingredientIndex = 0;
     loop1:
         for(let i=0; i < ingredients.length; ++i) {
             const stepArray = steps[showStep].split(" ");
             for(let j=0; j < stepArray.length; ++j) {
-                const splitIngredients = ingredients[i].replace(/[,.\n]/, "").split(" ");
-                const stepPart = stepArray[j].replace(/[,.\n]/, "");
-                if((splitIngredients.includes(stepPart) || splitIngredients.includes(stepPart.replace(/^ו/, "")))) {
-                    stepIngredients.push(<ListGroup.Item key={j} style={{'textAlign': 'right', 'direction': 'rtl', 'color': 'black'}}>{ingredients[i]}</ListGroup.Item>)
+                const splitIngredients = ingredients[i].replace(/[,.\n]/g, "").split(" ");
+                const stepPart = stepArray[j].replace(/[,.\n]/g, "");
+                if((splitIngredients.includes(stepPart) || splitIngredients.includes(stepPart.replace(/^ו/, "")) || splitIngredients.includes(stepPart.replace(/^ה/, "")))) {
+                    stepIngredients.push(<ListGroup.Item key={ingredientIndex++} style={{'textAlign': 'right', 'direction': 'rtl', 'color': 'black'}}>{ingredients[i]}</ListGroup.Item>)
                    continue loop1;
                 }
             }
         }
-        nextButton = <Button onClick={() => { console.log(getNextIndex(showStep, 1, steps));setStep(getNextIndex(showStep, 1, steps)) } }> Next Step </Button>;
-        previousButton = <Button onClick= {() => { console.log(getNextIndex(showStep, -1, steps));setStep(getNextIndex(showStep, -1, steps)) } }> Previous Step </Button>;
+        nextButton = <Button style={{"margin": "10px"}} onClick={() => { console.log(getNextIndex(showStep, 1, steps));setStep(getNextIndex(showStep, 1, steps)) } }> Next Step </Button>;
+        previousButton = <Button style={{"margin": "10px"}} onClick= {() => { console.log(getNextIndex(showStep, -1, steps));setStep(getNextIndex(showStep, -1, steps)) } }> Previous Step </Button>;
     } else {
         for(let index in steps) {
             items.push(
@@ -50,6 +51,10 @@ const createTableList =  (items, stepIngredients, nextButton, previousButton) =>
     return(
          <div>
             <div>
+                {nextButton}
+                {previousButton}
+            </div>
+            <div>
                 <Table striped bordered hover size="sm">
                     <tbody>
                         {items}
@@ -59,10 +64,7 @@ const createTableList =  (items, stepIngredients, nextButton, previousButton) =>
                     {stepIngredients}
                 </ListGroup>
             </div>
-            <div>
-                {nextButton}
-                {previousButton}
-            </div>
+
         </div>
     )
 }

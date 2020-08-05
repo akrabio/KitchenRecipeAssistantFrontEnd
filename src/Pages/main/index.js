@@ -54,7 +54,6 @@ export default class Main extends React.Component {
         const url = this.state.url;
         let data = await RecipeScraper(url);
         let res = await Recipe(data, "", this.state.currentStep)
-        this.props.transcript.startListening();
         this.state.noSleep.enable();
         this.setState({
             data: data,
@@ -80,8 +79,8 @@ export default class Main extends React.Component {
             if (this.state.data) {
                 recipe = this.state.recipe;
                 name = <h2>{this.state.data.name}</h2>
-                showIngredients = <Button onClick={() => this.setRecipe("show ingredients")}>Ingredients</Button>;
-                showSteps = <Button onClick={() => this.setRecipe("show steps")}>Steps</Button>
+                showIngredients = <Button style={{"margin": "10px"}} onClick={() => this.setRecipe("show ingredients")}>Ingredients</Button>;
+                showSteps = <Button style={{"margin": "10px"}} onClick={() => this.setRecipe("show steps")}>Steps</Button>
                 if(this.props.transcript.browserSupportsSpeechRecognition){
                     startMicrophone = !this.props.transcript.listening ? <Button onClick={() => {this.props.transcript.startListening();}}>Start Mic</Button> : <Button onClick={() => {this.props.transcript.stopListening();}}>Stop Mic</Button>
                 }
@@ -106,7 +105,7 @@ export default class Main extends React.Component {
                     {showSteps}
                 </div>
                 <div>
-                    <Button onClick={() => {
+                    <Button style={{"margin": "10px"}} onClick={() => {
                         this.state.noSleep.disable();
                         this.setState({ data: undefined, url: '', recipe: '', currentStep: "None" })
                     }
