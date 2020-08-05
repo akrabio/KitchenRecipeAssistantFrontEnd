@@ -9,7 +9,7 @@ const NEXT_STEP = "next_step";
 const PREVIOUS_STEP = "previous_step";
 const STEPS = "steps";
 
-export default async function Recipe(recipe, transcript, currentStep) {
+export default async function Recipe(recipe, transcript, currentStep, setStep) {
     const upperLimit = Object.keys(recipe.steps).length + 1;
     const lowerLimit = 1;
     let showStep = currentStep;
@@ -53,7 +53,7 @@ export default async function Recipe(recipe, transcript, currentStep) {
     let steps = "";
     let ingredients = "";
     if(showStep !== "None") {
-        steps = <Steps recipe={recipe} showStep={showStep} ingredients={recipe.ingredients}/>;
+        steps = <Steps recipe={recipe} showStep={showStep} setStep={setStep}/>;
     } else {
         ingredients = <Ingredients recipe={recipe}/>
     }

@@ -19,9 +19,17 @@ export default class Main extends React.Component {
         }
     }
 
-    async setRecipe(transcript) {
+    async setStep(step) {
+        this.setState({
+            currentStep: step
+        });
+        await this.setRecipe(undefined, step);
+    }
+
+    async setRecipe(transcript, step=undefined) {
         let res = ["", this.state.currentStep]
-        res = await Recipe(this.state.data, transcript, this.state.currentStep);
+        const currentStep = step ? step : this.state.currentStep;
+        res = await Recipe(this.state.data, transcript, currentStep, this.setStep.bind(this));
         this.setState({
             recipe: res[0],
             currentStep: res[1]
